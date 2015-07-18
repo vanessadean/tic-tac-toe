@@ -42,12 +42,11 @@ class Game
     @turn = 0
     @winner = false
     while @winner == false
+      print_board
       if @turn == @side**2 
-        print_board
         puts "It's a tie!"
         play_again
       else
-        print_board
         get_moves
         @turn += 1
       end
@@ -80,11 +79,7 @@ class Game
       (0...(@side-1)).each do |y|     
         @tally += 1 if board[y][x] == board[y+1][x]
       end
-      if @tally == @side 
-        return true
-      else 
-        @tally = 1
-      end    
+      check_tally   
     end
     return false
   end
@@ -94,11 +89,7 @@ class Game
       (0...(@side-1)).each do |x|   
         @tally += 1 if board[y][x] == board[y][x+1]
       end
-      if @tally == @side 
-        return true
-      else 
-        @tally = 1
-      end
+      check_tally
     end
     return false
   end
@@ -107,21 +98,21 @@ class Game
     (0...(@side-1)).each do |i|
       @tally += 1 if board[i][i] == board[i+1][i+1]
     end
-    if @tally == @side 
-      return true
-    else 
-      @tally = 1
-    end
+    check_tally
     (0...(@side-1)).each do |i|
       @tally += 1 if board[@side-1*(i+1)][i] == board[@side-1*(i+2)][i+1]
       puts @tally
     end
+    check_tally
+    false
+  end
+
+  def check_tally
     if @tally == @side 
       return true
     else 
       @tally = 1
-    end
-    false
+    end 
   end
 
   def create_board
