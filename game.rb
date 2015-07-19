@@ -1,4 +1,4 @@
-require 'active_support/core_ext'
+require 'active_support/all'
 require './human.rb'
 require './computer.rb'
 
@@ -11,31 +11,49 @@ class Game
   end
 
   def set_up_game
-    get_players
     create_board
+    get_players
     play_game
   end
 
   def get_players
     puts "Would you like to play against a human or the computer? (Type h or c.)"
     opponent = gets.downcase[0]
-    if !["h","c"].include?(opponent)
-      puts "That is not a valid choice. Please try again"
-      get_players
-    end
-    if opponent == "h"
+    case opponent
+    when "h"
       @player1 = Human.new(self) 
       @player2 = Human.new(self)
+    when "c"
+      chose_starter
     else
-      choice = rand(2)
-      if choice == 0
+      puts "That is not a valid choice. Please try again"
+      get_players
+    end 
+  end
+
+  def chose_starter
+    puts "Would you like to go first? Type y for yes, n for no, c for computer's choice."
+    choice = gets.downcase[0]
+    case choice
+    when "y"
+      @player1 = Human.new(self)
+      @player2 = Computer.new(self)
+    when "n"
+      @player1 = Computer.new(self)
+      @player2 = Human.new(self)
+    when "c"
+      randomize = rand(2)
+      if randomize == 0
         @player1 = Computer.new(self)
         @player2 = Human.new(self)
       else
-        @player1 = Human.new(self)
+        @player1 = Human.new(self)     
         @player2 = Computer.new(self)
       end
-    end 
+    else
+      puts "That is not a valid choice. Please try again"
+      chose_starter
+    end
   end
 
   def play_game
@@ -79,9 +97,11 @@ class Game
       (0...(@side-1)).each do |y|     
         @tally += 1 if board[y][x] == board[y+1][x]
       end
-      check_tally   
+      if check_tally == true
+        return true
+      end   
     end
-    return false
+    false
   end
 
   def horizontal_win?(board)
@@ -89,27 +109,30 @@ class Game
       (0...(@side-1)).each do |x|   
         @tally += 1 if board[y][x] == board[y][x+1]
       end
-      check_tally
+      if check_tally == true
+        return true
+      end
     end
-    return false
+    false
   end
 
   def diagonal_win?(board)
     (0...(@side-1)).each do |i|
       @tally += 1 if board[i][i] == board[i+1][i+1]
     end
-    check_tally
+    if check_tally == true
+      return true
+    end
     (0...(@side-1)).each do |i|
       @tally += 1 if board[@side-1*(i+1)][i] == board[@side-1*(i+2)][i+1]
       puts @tally
     end
-    check_tally
-    false
+    check_tally == true ? true : false
   end
 
   def check_tally
     if @tally == @side 
-      return true
+      true
     else 
       @tally = 1
     end 
