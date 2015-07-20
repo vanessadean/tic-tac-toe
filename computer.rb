@@ -34,7 +34,8 @@ class Computer
     elsif @game.board[7].is_a?(Integer)
       7
     else
-      @game.board.select { |i| i.is_a?(Integer) }.sample
+      @game.board.select { |i| i.is_a?(Integer) }.sample - 1
+      i = @game.board.select { |i| i.is_a?(Integer) }.sample
     end
   end  
 
@@ -58,7 +59,7 @@ class Computer
     elsif @game.board[0].is_a?(Integer)
       0   
     else
-      @game.board.select { |i| i.is_a?(Integer) }.sample
+      i = @game.board.select { |i| i.is_a?(Integer) }.sample - 1
     end
   end
 end

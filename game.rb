@@ -59,15 +59,15 @@ class Game
   def play_game
     @turn = 0
     @winner = false
-    while @winner == false
+    while @winner == false && @turn < @side**2
       print_board
-      if @turn == @side**2 
+      if @turn == (@side**2)-1
         puts "It's a tie!"
         play_again
       else
         get_moves
-        @turn += 1
       end
+      @turn += 1
     end
   end
 
@@ -125,7 +125,6 @@ class Game
     end
     (0...(@side-1)).each do |i|
       @tally += 1 if board[@side-1*(i+1)][i] == board[@side-1*(i+2)][i+1]
-      puts @tally
     end
     check_tally == true ? true : false
   end
