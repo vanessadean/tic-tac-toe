@@ -124,7 +124,7 @@ class Game
       return true
     end
     (0...(@side-1)).each do |i|
-      @tally += 1 if board[@side-1*(i+1)][i] == board[@side-1*(i+2)][i+1]
+      @tally += 1 if board[@side-(i+1)][i] == board[@side-(i+2)][i+1]
     end
     check_tally == true ? true : false
   end
@@ -138,9 +138,9 @@ class Game
   end
 
   def create_board
-    puts "How big would you like the board to be? (Type 3 for 3x3, 4 for 4x4, etc.)"
-    @side = gets.strip[0].to_i
-    if @side <= 0
+    puts "How big would you like the board to be? (Type 3 for 3x3, 4 for 4x4, etc. up to 9)"
+    @side = gets.to_i
+    if @side <= 0 || @side > 9
       puts "That is not a valid board size. Please try again.\n\n"
       create_board
     end    

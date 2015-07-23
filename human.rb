@@ -16,7 +16,7 @@ class Human
       puts "That's not even on the board! Try again."
       move = gets.to_i
     end
-    if @game.board[move-1] == "X" || @game.board[move-1] == "O"
+    if @game.board[move-1].is_a?(String)
       puts "Already taken! Try again."
       move = gets.to_i
     end

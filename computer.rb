@@ -35,7 +35,6 @@ class Computer
       7
     else
       @game.board.select { |i| i.is_a?(Integer) }.sample - 1
-      i = @game.board.select { |i| i.is_a?(Integer) }.sample
     end
   end  
 
